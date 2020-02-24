@@ -35,8 +35,7 @@ var deleteNote = function(id) {
 // If there is an activeNote, display it, otherwise render empty inputs
 var renderActiveNote = function() {
   $saveNoteBtn.hide();
-
-  if (activeNote.id) {
+  if (activeNote.id >= 0) {
     $noteTitle.attr("readonly", true);
     $noteText.attr("readonly", true);
     $noteTitle.val(activeNote.title);
@@ -51,6 +50,12 @@ var renderActiveNote = function() {
 
 // Get the note data from the inputs, save it to the db and update the view
 var handleNoteSave = function() {
+  // getNotes().then(function(response){
+  //   var totalNotes = response.length
+  //   console("This is how many notes in notes" + totalNotes)
+  //   return totalNotes
+  // })
+  // // console.log(totalNotes)
   var newNote = {
     title: $noteTitle.val(),
     text: $noteText.val()
@@ -70,10 +75,7 @@ var handleNoteDelete = function(event) {
   var note = $(this)
     .parent(".list-group-item")
     .data();
-
-  if (activeNote.id === note.id) {
-    activeNote = {};
-  }
+  console.log(note)
 
   deleteNote(note.id).then(function() {
     getAndRenderNotes();
@@ -105,13 +107,17 @@ var handleRenderSaveBtn = function() {
 
 // Render's the list of note titles
 var renderNoteList = function(notes) {
+  console.log("THis is how many notes there are " + notes.length)
   $noteList.empty();
   console.log(notes)
   var noteListItems = [];
-
+  if (note != 0){
   for (var i = 0; i < notes.length; i++) {
-    var note = notes[i];
 
+    notes[i] = Object.assign({id: i}, notes[i]);
+    // saveNote(notes[i]).then(function(){})
+    var note = notes[i];
+    console.log(notes[i])
     var $li = $("<li class='list-group-item'>").data(note);
     $li.attr("data-id", i)
     var $span = $("<span>").text(note.title);
@@ -120,6 +126,8 @@ var renderNoteList = function(notes) {
     $li.append($span, $delBtn);
     noteListItems.push($li);
   }
+  }
+  console.log("this is the final note: " +JSON.stringify(notes))
 
   $noteList.append(noteListItems);
 };
