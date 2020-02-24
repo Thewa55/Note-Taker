@@ -19,7 +19,7 @@ var getNotes = function() {
 var saveNote = function(note) {
   return $.ajax({
     url: "/api/notes",
-    data: "json",
+    data: note,
     method: "POST"
   });
 };
@@ -56,7 +56,7 @@ var handleNoteSave = function() {
     text: $noteText.val()
   };
 
-  saveNote(newNote).then(function() {
+  saveNote(newNote).then(function(data) {
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -106,17 +106,16 @@ var handleRenderSaveBtn = function() {
 // Render's the list of note titles
 var renderNoteList = function(notes) {
   $noteList.empty();
-  $.ajax({URL: "/api/notes", method:"GET"})
+  console.log(notes)
   var noteListItems = [];
 
   for (var i = 0; i < notes.length; i++) {
     var note = notes[i];
 
     var $li = $("<li class='list-group-item'>").data(note);
+    $li.attr("data-id", i)
     var $span = $("<span>").text(note.title);
-    var $delBtn = $(
-      "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
-    );
+    var $delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-note'>");
 
     $li.append($span, $delBtn);
     noteListItems.push($li);

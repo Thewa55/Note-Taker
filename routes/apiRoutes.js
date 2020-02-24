@@ -1,4 +1,4 @@
-const noteData = require("../db/db.json")
+const noteData = require("../db/db")
 
 module.exports =function(app){
   app.get("/api/notes", (req, res) => {
@@ -8,5 +8,6 @@ module.exports =function(app){
   app.post("/api/notes", (req, res) => {
     const Note = req.body
     noteData.push(Note)
+    res.json(noteData)
   })
 }
