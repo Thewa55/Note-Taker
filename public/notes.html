@@ -25,18 +25,18 @@
     <div class="row">
       <div class="col-4 list-container">
         <div class="card">
-          <ul class="list-group">
+          <ul class="list-group" id="noteList">
           </ul>
         </div>
       </div>
       <div class="col-8">
         <div class="row">Title</div>
         <div class="row">
-          <input class="col-10 note-title" placeholder="Note Title" maxlength="28" type="text" style="width: 100%;">
+          <input class="col-10 note-title" id="noteTitle" placeholder="Note Title" maxlength="28" type="text" >
         </div>
         <div class="row">Note</div>
         <div class="row">
-          <textarea class="col-10 note-textarea" placeholder="Note Text"></textarea>
+          <textarea class="col-10 note-textarea" id="noteText" placeholder="Note Text"></textarea>
         </div>
         <div class="row mt-4">
           <button class="btn btn-primary" id="saveNoteBtn">
