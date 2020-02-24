@@ -7,7 +7,6 @@ module.exports =function(app){
 
   app.post("/api/notes", function(req, res){
     const Note = req.body
-    
+    noteData.push(Note)
   })
-
 }
