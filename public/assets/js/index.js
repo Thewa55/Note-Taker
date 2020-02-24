@@ -19,7 +19,7 @@ var getNotes = function() {
 var saveNote = function(note) {
   return $.ajax({
     url: "/api/notes",
-    data: note,
+    data: "json",
     method: "POST"
   });
 };
@@ -37,15 +37,15 @@ var renderActiveNote = function() {
   $saveNoteBtn.hide();
 
   if (activeNote.id) {
-    $noteTitle.attr("readonly", true);
-    $noteText.attr("readonly", true);
-    $noteTitle.val(activeNote.title);
-    $noteText.val(activeNote.text);
+    $("#noteTitle").attr("readonly", true);
+    $("#noteText").attr("readonly", true);
+    $("#noteTitle").val(activeNote.title);
+    $("#noteText").val(activeNote.text);
   } else {
-    $noteTitle.attr("readonly", false);
-    $noteText.attr("readonly", false);
-    $noteTitle.val("");
-    $noteText.val("");
+    $("#noteTitle").attr("readonly", false);
+    $("#noteText").attr("readonly", false);
+    $("#noteTitle").val("");
+    $("#noteText").val("");
   }
 };
 
@@ -96,7 +96,7 @@ var handleNewNoteView = function() {
 // If a note's title or text are empty, hide the save button
 // Or else show it
 var handleRenderSaveBtn = function() {
-  if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
+  if (!$("#noteTitle").val().trim() || !$("#noteText").val().trim()) {
     $("#saveNoteBtn").hide();
   } else {
     $("#saveNoteBtn").show();
@@ -133,11 +133,11 @@ var getAndRenderNotes = function() {
 };
 
 $("#saveNoteBtn").on("click", handleNoteSave);
-$noteList.on("click", ".list-group-item", handleNoteView);
-$newNoteBtn.on("click", handleNewNoteView);
-$noteList.on("click", ".delete-note", handleNoteDelete);
-$noteTitle.on("keyup", handleRenderSaveBtn);
-$noteText.on("keyup", handleRenderSaveBtn);
+$("#noteList").on("click", ".list-group-item", handleNoteView);
+$("#newNoteBtn").on("click", handleNewNoteView);
+$("#noteList").on("click", ".delete-note", handleNoteDelete);
+$("#noteTitle").on("keyup", handleRenderSaveBtn);
+$("#noteText").on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
