@@ -50,12 +50,6 @@ var renderActiveNote = function() {
 
 // Get the note data from the inputs, save it to the db and update the view
 var handleNoteSave = function() {
-  // getNotes().then(function(response){
-  //   var totalNotes = response.length
-  //   console("This is how many notes in notes" + totalNotes)
-  //   return totalNotes
-  // })
-  // // console.log(totalNotes)
   var newNote = {
     title: $noteTitle.val(),
     text: $noteText.val()
@@ -111,14 +105,10 @@ var handleRenderSaveBtn = function() {
 // Render's the list of note titles
 var renderNoteList = function(notes) {
   $noteList.empty();
-  console.log("this is a pre append " +notes)
+  console.table(notes)
   var noteListItems = [];
   if (notes != 0){
   for (var i = 0; i < notes.length; i++) {
-    // if(!notes[i].title === ""){
-    // notes[i] = Object.assign({id: i}, notes[i]);
-    // console.log("This is the id" + notes[i].id)
-
     var note = notes[i];
     var $li = $("<li class='list-group-item'>").data(note);
     $li.attr("data-id", notes[i].id)
