@@ -7,20 +7,21 @@ module.exports =function(app){
 
 
   app.post("/api/notes", (req, res) => {
-    const Note = req.body
-    noteData.push(Note)
+    const note = req.body
+    note.id = Math.floor(Math.random()*1000000)
+    noteData.push(note)
     res.json(noteData)
   })
 
   app.delete("/api/notes/:note", (req, res)=>{
     var chosen = req.params.note
-    console.log(chosen)
-    console.log(noteData)
+    console.log("This is the chosen number " +chosen)
+    console.table(noteData)
     for(let i=0; i < noteData.length; i++){
-    //   console.log(noteData[i].id)
-      if(noteData[i].id === chosen){
-        noteData[i] = {}
-        res.json(notes)
+      console.log("This is noteData[" + i+ "] id's " + noteData[i].id)
+      if(chosen == noteData[i].id){
+        noteData.splice(i,1)
+        res.json(noteData)
       }
     }
   })
