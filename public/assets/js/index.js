@@ -4,9 +4,19 @@ var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
 
+
+var $titleSearchbtn = $(".title-btn")
+var $textSearchbtn = $(".text-btn")
+var $userTitle = $(".search-title")
+var $userText = $(".search-text")
+var $searchList = $(".search-container .list-group")
+var $searchTitle = $(".search-title")
+var $searchText = $(".search-text")
+
+
 // activeNote is used to keep track of the note in the textarea
 var activeNote = {};
-
+var searchNote = {};
 // A function for getting all notes from the db
 var getNotes = function() {
   return $.ajax({
@@ -140,3 +150,95 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+
+//search bar functions and rendering
+var renderResultList = function(notes) {
+  $searchList.empty();
+  console.table(notes)
+  var searchListItems = [];
+  console.log(notes)
+  if (notes != 0){
+    $searchList.text("No matches, please try again.")
+  for (var i = 0; i < notes.length; i++) {
+    var note = notes[i];
+    var $li = $("<li class='list-group-item'>").data(note);
+    // $li.attr("data-id", notes[i].id)
+    var $span = $("<span>").text(note.title);
+
+    $li.append($span);
+    searchListItems.push($li);}
+  // }
+  }
+  console.log("this is the final note: " +JSON.stringify(notes))
+
+  $searchList.append(searchListItems);
+};
+
+
+var filterTitle = (notes) =>{
+  return new Promise(function(resolve, reject){
+  let titleResult = []
+  if (notes.length != 0){
+    for(let i=0; i<notes.length; i++){
+      var title = (notes[i].title).trim().toLowerCase()
+      var userTitle = ($userTitle.val()).trim().toLowerCase()
+      if(title.includes(userTitle)){
+        titleResult.push(notes[i])
+      }
+    }
+    console.table(titleResult)
+    resolve(titleResult)
+  }
+  reject($searchList.text("Sorry no matches found"))
+  })
+}
+
+var filterText = (notes) =>{
+  return new Promise(function(resolve, reject){
+    let textResult = []
+    if (notes.length != 0){
+      for(let i=0; i<notes.length; i++){
+        var text = (notes[i].text).toLowerCase().split(" ")
+        var userText = ($userText.val()).trim().toLowerCase()
+        if(text.includes(userText)){
+          textResult.push(notes[i])
+        }
+      }
+    console.table(textResult)
+    resolve(textResult)
+  }
+  reject($searchList.text("Sorry no matches found"))
+  })
+}
+
+
+var searchForTitle = function(){
+  getNotes()
+    .then(data => filterTitle(data))
+    .then(results => renderResultList(results))
+}
+
+var searchForText = function(){
+  getNotes()
+    .then(data => filterText(data))
+    .then(results => renderResultList(results))
+}
+
+var handleSearchView = function() {
+  searchNote = $(this).data();
+  console.log(searchNote)
+  $searchTitle.text(searchNote.title);
+  $searchText.text(searchNote.text);
+};
+
+// var renderSearchNote = function() {
+//   if (activeNote.id >= 0) {
+//     $searchTitle.attr("readonly", true);
+//     $searchText.attr("readonly", true);
+//     ;
+//   } 
+// };
+
+$titleSearchbtn.on("click", searchForTitle)
+$textSearchbtn.on("click", searchForText)
+$searchList.on("click", ".list-group-item", handleSearchView);
