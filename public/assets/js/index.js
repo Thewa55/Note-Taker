@@ -180,6 +180,9 @@ var renderResultList = function(notes) {
 var filterTitle = (notes) =>{
   return new Promise(function(resolve, reject){
     let titleResult = []
+    $searchList.empty()
+    $searchTitle.text("");
+    $searchText.text("");
     if (notes.length != 0){
       for(let i=0; i<notes.length; i++){
         var title = (notes[i].title).trim().toLowerCase()
@@ -200,6 +203,9 @@ var filterTitle = (notes) =>{
 var filterText = (notes) =>{
   return new Promise(function(resolve, reject){
     let textResult = []
+    $searchList.empty()
+    $searchTitle.text("");
+    $searchText.text("");
     if (notes.length != 0){
       for(let i=0; i<notes.length; i++){
         var text = (notes[i].text).toLowerCase().split(" ")
