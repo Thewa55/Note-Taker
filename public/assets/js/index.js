@@ -105,7 +105,7 @@ var handleNewNoteView = function() {
 // If a note's title or text are empty, hide the save button
 // Or else show it
 var handleRenderSaveBtn = function() {
-  if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
+  if (!$noteTitle.val().trim()) {
     $saveNoteBtn.hide();
   } else {
     $saveNoteBtn.show();
@@ -157,9 +157,8 @@ var renderResultList = function(notes) {
   console.table(notes)
   var searchListItems = [];
   console.log(notes)
-  if (notes != 0){
-    $searchList.text("No matches, please try again.")
-  for (var i = 0; i < notes.length; i++) {
+  if (notes.length != 0 && $userTitle.val() !=""){
+    for (var i = 0; i < notes.length; i++) {
     var note = notes[i];
     var $li = $("<li class='list-group-item'>").data(note);
     // $li.attr("data-id", notes[i].id)
@@ -169,6 +168,9 @@ var renderResultList = function(notes) {
     searchListItems.push($li);}
   // }
   }
+  else{
+    $searchList.text("No matches, please try again.")
+  }
   console.log("this is the final note: " +JSON.stringify(notes))
 
   $searchList.append(searchListItems);
@@ -177,19 +179,21 @@ var renderResultList = function(notes) {
 
 var filterTitle = (notes) =>{
   return new Promise(function(resolve, reject){
-  let titleResult = []
-  if (notes.length != 0){
-    for(let i=0; i<notes.length; i++){
-      var title = (notes[i].title).trim().toLowerCase()
-      var userTitle = ($userTitle.val()).trim().toLowerCase()
-      if(title.includes(userTitle)){
-        titleResult.push(notes[i])
+    let titleResult = []
+    if (notes.length != 0){
+      for(let i=0; i<notes.length; i++){
+        var title = (notes[i].title).trim().toLowerCase()
+        var userTitle = ($userTitle.val()).trim().toLowerCase()
+        if(title.includes(userTitle)){
+          titleResult.push(notes[i])
+        }
       }
+      console.table(titleResult)
+      resolve(titleResult)
     }
-    console.table(titleResult)
-    resolve(titleResult)
-  }
-  reject($searchList.text("Sorry no matches found"))
+    else{
+      reject($searchList.text("Sorry there are no saved notes, go create some!"))
+    }
   })
 }
 
@@ -204,12 +208,13 @@ var filterText = (notes) =>{
           textResult.push(notes[i])
         }
       }
-    console.table(textResult)
-    resolve(textResult)
-  }
-  reject($searchList.text("Sorry no matches found"))
-  })
-}
+      console.table(textResult)
+      resolve(textResult)
+    }
+    else{
+      reject($searchList.text("Sorry there are no saved notes, go create some!"))
+    }
+  })}
 
 
 var searchForTitle = function(){
@@ -230,14 +235,6 @@ var handleSearchView = function() {
   $searchTitle.text(searchNote.title);
   $searchText.text(searchNote.text);
 };
-
-// var renderSearchNote = function() {
-//   if (activeNote.id >= 0) {
-//     $searchTitle.attr("readonly", true);
-//     $searchText.attr("readonly", true);
-//     ;
-//   } 
-// };
 
 $titleSearchbtn.on("click", searchForTitle)
 $textSearchbtn.on("click", searchForText)
