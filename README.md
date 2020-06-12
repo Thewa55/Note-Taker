@@ -47,11 +47,11 @@ This is my first time using a promise chain to solve my async issue with using e
 
 ## #Technology
 
-javascript
-bootstrap
-jQuery
-express
-Node.js
+javascript<br>
+bootstrap<br>
+jQuery<br>
+express<br>
+Node.js<br>
 
 ## #Credits
 
