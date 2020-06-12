@@ -1,11 +1,13 @@
 # Note Taker
-<img src="https://img.shields.io/badge/Made%20with-express%20%26%20Heroku-blue">
+<img src="https://img.shields.io/badge/Made%20with-express-blue"><br>
+<img src="https://img.shields.io/badge/Deployed%20with-Heroku-green">
 
 ## Description
 It is a fully functional note taker that has information saved server side
 ## Table of content
 [#Installation](#Installation)<br>
 [#Usage](#Usage)<br>
+[#Technology Used](#Technology)<br>
 [#Credits](#Credits)<br>
 [#License](#License)<br>
 [#Contacts](#Contacts)
@@ -43,6 +45,13 @@ This is my first time using a promise chain to solve my async issue with using e
 
 <img src="./public/assets/images/PromiseChain.png" width="400"><img src="./public/assets/images/PromiseChain2.png" width="400">
 
+## #Technology
+
+javascript
+bootstrap
+jQuery
+express
+Node.js
 
 ## #Credits
 
